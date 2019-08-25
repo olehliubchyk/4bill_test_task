@@ -1,0 +1,24 @@
+version: '3.3'
+
+services:
+ db:
+  image: postgres:11.5
+  restart: always
+  volumes:
+    - /postgres-data:/var/lib/postgresql/data
+  ports:
+    - 5432:5432
+  environment:
+    POSTGRES_PASSWORD: 12345
+
+ test_task:
+   build: .
+   env_file:
+     - base.env
+   ports:
+     - "5000:5000"
+   deploy:
+     restart_policy:
+       condition: on-failure
+
+
